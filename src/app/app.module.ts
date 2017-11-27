@@ -10,7 +10,18 @@ import { LoginPage } from '../pages/login/login';
 import { ProfilePage } from '../pages/profile/profile';
 import { ProductosPage } from '../pages/productos/productos';
 import { ServicesPage } from '../pages/services/services';
+import { RoutesPage } from '../pages/routes/routes';
+import { NewRoutePage } from '../pages/new-route/new-route';
+import { AddGuardPage } from '../pages/add-guard/add-guard';
+import { AddPointPage } from '../pages/add-point/add-point';
+import { PairRoutePage } from '../pages/pair-route/pair-route';
+import { AssignedPage} from '../pages/assigned/assigned';
+import { WorkPage} from '../pages/work/work';
 
+import { Geolocation } from '@ionic-native/geolocation';
+import {NgxQRCodeModule} from 'ngx-qrcode2';
+import {BarcodeScanner} from '@ionic-native/barcode-scanner'
+import { IonicStorageModule } from '@ionic/storage';
 
 @NgModule({
   declarations: [
@@ -19,11 +30,19 @@ import { ServicesPage } from '../pages/services/services';
     LoginPage,
     ProfilePage,
     ProductosPage,
-    ServicesPage
+    ServicesPage,
+    RoutesPage,
+    NewRoutePage,
+    AddGuardPage,
+    AddPointPage,
+    PairRoutePage,
+    AssignedPage,
+    WorkPage
   ],
   imports: [
     BrowserModule,
     IonicModule.forRoot(MyApp),
+    IonicStorageModule.forRoot(),
     HttpModule,
   ],
   bootstrap: [IonicApp],
@@ -33,11 +52,21 @@ import { ServicesPage } from '../pages/services/services';
     LoginPage,
     ProfilePage,
     ProductosPage,
-    ServicesPage
+    ServicesPage,
+    RoutesPage,
+    NewRoutePage,
+    AddGuardPage,
+    AddPointPage,
+    PairRoutePage,
+    AssignedPage,
+    WorkPage
   ],
   providers: [
     StatusBar,
     SplashScreen,
+    Geolocation,
+    BarcodeScanner,
+    NgxQRCodeModule,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })

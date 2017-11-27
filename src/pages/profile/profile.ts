@@ -36,7 +36,7 @@ export class ProfilePage {
     headers.append("Content-Type","application/json");
     headers.append("Authorization","Bearer " + window.localStorage.getItem("token"));
 
-    this.http.get("http://localhost/details",{headers: headers})
+    this.http.get("http://localhost/getUser",{headers: headers})
     .map(res=>res.json())
     .subscribe(
       data=>{

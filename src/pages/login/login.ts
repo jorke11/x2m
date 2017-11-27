@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import {Http,Headers} from '@angular/http';
 import 'rxjs/add/operator/map';
 import { HomePage } from '../home/home';
+import { Storage } from '@ionic/storage';
 
 @IonicPage()
 @Component({
@@ -15,7 +16,8 @@ export class LoginPage {
   public email:string
   public password:string
 
-  constructor(public navCtrl: NavController, public navParams: NavParams,public http:Http) {
+  constructor(public navCtrl: NavController, public navParams: NavParams,public http:Http,
+    public storage:Storage) {
       
   }
 
@@ -24,20 +26,25 @@ export class LoginPage {
 
   login(){
     let headers = new Headers();
-    headers.append("Accept","application/json");
+    //headers.append("Content-Type","application/x-www-form-urlencoded");
     headers.append("Content-Type","application/json");
+    headers.append("Accept","application/json");
+    headers.append("Access-Control-Allow-Origin","*");
+    
     let param={email:this.email,password:this.password};
-
-    this.http.post("http://localhost/user/login",param,{headers:headers})
+    console.log(this.email)
+    console.log(this.password)
+    this.http.post("http://192.168.1.4/user/login/",param,{headers:headers})
     .map(res=>res.json())
     .subscribe(
       data=>{
         this.data=data;
-        window.localStorage.setItem("token",data.token);
+        window.localStorage.setItem("token",data.token)
         this.navCtrl.push(HomePage);
       },
       err=>{
-        console.log("error");
+        console.log("llego a error:");
+        console.log(JSON.stringify(err))
       }
     );
   }
