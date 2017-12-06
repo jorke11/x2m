@@ -13,6 +13,7 @@ import 'rxjs/add/operator/map';
 export class AssignedPage {
 
   routes:any
+  ip:any
 
   constructor(public navCtrl: NavController, public navParams: NavParams,public viewController:ViewController,
     public http:Http,public modalCtrl:ModalController,public platform:Platform,
@@ -20,7 +21,7 @@ export class AssignedPage {
     this.routes=[];
     
 
-    
+    this.ip="http://192.168.1.6";
 
   }
 
@@ -33,15 +34,12 @@ export class AssignedPage {
   }
 
   getRoute(){
-
-    
-
     let headers = new Headers();
     headers.append("Accept","application/json");
     headers.append("Content-Type","application/json");
     headers.append("Authorization","Bearer " + window.localStorage.getItem("token"));
 
-    this.http.get("http://192.168.1.4/getRoutesUser",{headers: headers})
+    this.http.get(this.ip+"/getRoutesUser",{headers: headers})
     .map(res=>res.json())
     .subscribe(
       data=>{

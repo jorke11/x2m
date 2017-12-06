@@ -38,6 +38,7 @@ export class AddPointPage {
   start:any
   end:any
   request:any
+  ip:any
 
   qrData=null
   
@@ -46,7 +47,7 @@ export class AddPointPage {
   constructor(public navCtrl: NavController, public navParams: NavParams,public viewController:ViewController,
     public geolocalization:Geolocation,public alertCtrl:AlertController,public http:Http,
     private barcodeScanner:BarcodeScanner) {
-    
+    this.ip="http://192.168.1.6";
     this.item={};
     this.item = this.navParams.get("data");
     this.latlng={}
@@ -59,7 +60,7 @@ export class AddPointPage {
     this.request = {
       travelMode: google.maps.TravelMode.DRIVING
     };
-
+    
     this.getPoints()
   }
 
@@ -81,10 +82,12 @@ export class AddPointPage {
 }
 
   getPosition(){
+    console.log("llego a posicion")
     this.geolocalization.getCurrentPosition().then(response=>{
       this.loadMap(response);
     }).catch(error=>{
-        console.log(error);
+      console.log("error posicion");
+        console.log(JSON.stringify(error));
     })
   }
 
@@ -94,15 +97,18 @@ export class AddPointPage {
     headers.append("Content-Type","application/json");
     headers.append("Authorization","Bearer " + window.localStorage.getItem("token"));
 
-    this.http.get("http://localhost/getPoints/"+this.item.id,{headers: headers})
+    this.http.get(this.ip+"/getPoints/"+this.item.id,{headers: headers})
     .map(res=>res.json())
     .subscribe(
       data=>{
         this.pointers = data;
+        console.log("ok");
+        console.log(JSON.stringify(data));
         this.loadPoints(data)
       },
       err=>{
         console.log("error");
+        console.log(JSON.stringify(err));
       }
     );
   }
@@ -117,6 +123,7 @@ export class AddPointPage {
     
     let myLatLng = {lat:latitud,lng:longitude}
 
+    console.log("llego")
     this.map = new google.maps.Map(this.mapRef.nativeElement,{
       center:myLatLng,
       zoom:18
@@ -243,7 +250,7 @@ export class AddPointPage {
     
     this.item.pointers=this.pointers;
 
-    this.http.post("http://localhost/newPoint",this.item,{headers:headers})
+    this.http.post(this.ip+"/newPoint",this.item,{headers:headers})
     .map(res=>res.json())
     .subscribe(
       data=>{

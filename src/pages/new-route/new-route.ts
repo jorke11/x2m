@@ -13,9 +13,11 @@ export class NewRoutePage {
 
   description:any
   data:any
+  ip:any
 
   constructor(public navCtrl: NavController, public navParams: NavParams,public viewCtrl:ViewController,
     public http:Http) {
+      this.ip="http://192.168.1.6";
     console.log(this.navParams.get("sendparameter"));
     this.description='';
     this.data={};
@@ -34,7 +36,7 @@ export class NewRoutePage {
     headers.append("Authorization","Bearer " + window.localStorage.getItem("token"));
     let param={description:this.description};
 
-    this.http.post("http://localhost/newRoute",param,{headers:headers})
+    this.http.post(this.ip + "/newRoute",param,{headers:headers})
     .map(res=>res.json())
     .subscribe(
       data=>{
@@ -55,3 +57,4 @@ export class NewRoutePage {
   }
 
 }
+

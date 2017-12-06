@@ -14,10 +14,11 @@ export class AddGuardPage {
 
   users:any;
   route:any;
+  ip:any
 
   constructor(public navCtrl: NavController, public navParams: NavParams,public viewController:ViewController,
     public http:Http,public modalCtrl:ModalController) {
-      
+      this.ip="http://192.168.1.6";
       this.users=[];
       this.route=this.navParams.get("data");
   }
@@ -43,7 +44,7 @@ export class AddGuardPage {
     headers.append("Content-Type","application/json");
     headers.append("Authorization","Bearer " + window.localStorage.getItem("token"));
 
-    this.http.get("http://localhost/getUsers",{headers: headers})
+    this.http.get(this.ip+"/getUsers",{headers: headers})
     .map(res=>res.json())
     .subscribe(
       data=>{

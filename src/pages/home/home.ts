@@ -13,9 +13,10 @@ export class HomePage {
   public data:any
   email:string
   password:string
+  ip:any
 
   constructor(public navCtrl: NavController,public http:Http) {
-    
+    this.ip="http://192.168.1.6";
   }
 
   login(){
@@ -24,7 +25,7 @@ export class HomePage {
     headers.append("Content-Type","application/x-www-form-urlencoded");
 
 
-    this.http.post("http://localhost/user/login",
+    this.http.post(this.ip+"/user/login",
     {
       email:this.email,
       password:this.password,

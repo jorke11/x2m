@@ -15,10 +15,11 @@ export class LoginPage {
   public data:any
   public email:string
   public password:string
+  public ip:any
 
   constructor(public navCtrl: NavController, public navParams: NavParams,public http:Http,
     public storage:Storage) {
-      
+      this.ip="http://192.168.1.6";
   }
 
   ionViewDidLoad() {
@@ -34,7 +35,7 @@ export class LoginPage {
     let param={email:this.email,password:this.password};
     console.log(this.email)
     console.log(this.password)
-    this.http.post("http://192.168.1.4/user/login/",param,{headers:headers})
+    this.http.post(this.ip+"/user/login/",param,{headers:headers})
     .map(res=>res.json())
     .subscribe(
       data=>{

@@ -17,12 +17,15 @@ import 'rxjs/add/operator/map';
 export class RoutesPage {
   
   data:any
+  public ip:any
   
   constructor(public navCtrl: NavController, public navParams: NavParams,public modalCtrl:ModalController,
     public toastCtrl:ToastController,public http:Http,public actionSheetCtrl:ActionSheetController,
     public platform: Platform) {
+      this.ip="http://192.168.1.6";
       this.data = []
       this.getDataRoutes();
+
   }
 
   ionViewDidLoad() {
@@ -36,15 +39,18 @@ export class RoutesPage {
     headers.append("Content-Type","application/json");
     headers.append("Authorization","Bearer " + window.localStorage.getItem("token"));
 
-    this.http.get("http://192.168.1.4/getRoutes",{headers: headers})
+    this.http.get(this.ip+"/getRoutes",{headers: headers})
     .map(res=>res.json())
     .subscribe(
       data=>{
         this.data = data;
-        console.log(data);
+        console.log("ok")
+        console.log(JSON.stringify(data));
       },
       err=>{
+        
         console.log("error");
+        console.log(JSON.stringify(err));
       }
     );
   }
