@@ -5,6 +5,8 @@ import { IonicPage, NavController, NavParams, ViewController, ModalController, P
 import {Http,Headers} from '@angular/http';
 import 'rxjs/add/operator/map';
 
+import { ConfigProvider } from '../../providers/config/config';
+
 @IonicPage()
 @Component({
   selector: 'page-assigned',
@@ -13,15 +15,11 @@ import 'rxjs/add/operator/map';
 export class AssignedPage {
 
   routes:any
-  ip:any
 
   constructor(public navCtrl: NavController, public navParams: NavParams,public viewController:ViewController,
     public http:Http,public modalCtrl:ModalController,public platform:Platform,
-  public actionSheetCtrl:ActionSheetController,public storage:Storage) {
+  public actionSheetCtrl:ActionSheetController,public storage:Storage,public config:ConfigProvider) {
     this.routes=[];
-    
-
-    this.ip="http://192.168.1.6";
 
   }
 
@@ -38,8 +36,8 @@ export class AssignedPage {
     headers.append("Accept","application/json");
     headers.append("Content-Type","application/json");
     headers.append("Authorization","Bearer " + window.localStorage.getItem("token"));
-
-    this.http.get(this.ip+"/getRoutesUser",{headers: headers})
+    console.log(headers)
+    this.http.get(this.config.SERVER_IP+"/getRoutesUser",{headers: headers})
     .map(res=>res.json())
     .subscribe(
       data=>{

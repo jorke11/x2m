@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams,ViewController} from 'ionic-angular
 
 import {Http,Headers} from '@angular/http';
 import 'rxjs/add/operator/map';
+import { ConfigProvider } from '../../providers/config/config';
 
 @IonicPage()
 @Component({
@@ -13,11 +14,10 @@ export class NewRoutePage {
 
   description:any
   data:any
-  ip:any
 
   constructor(public navCtrl: NavController, public navParams: NavParams,public viewCtrl:ViewController,
-    public http:Http) {
-      this.ip="http://192.168.1.6";
+    public http:Http,public config:ConfigProvider) {
+   
     console.log(this.navParams.get("sendparameter"));
     this.description='';
     this.data={};
@@ -36,7 +36,7 @@ export class NewRoutePage {
     headers.append("Authorization","Bearer " + window.localStorage.getItem("token"));
     let param={description:this.description};
 
-    this.http.post(this.ip + "/newRoute",param,{headers:headers})
+    this.http.post(this.config.SERVER_IP + "/newRoute",param,{headers:headers})
     .map(res=>res.json())
     .subscribe(
       data=>{

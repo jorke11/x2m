@@ -4,6 +4,7 @@ import { PairRoutePage } from './../pair-route/pair-route';
 
 import {Http,Headers} from '@angular/http';
 import 'rxjs/add/operator/map';
+import { ConfigProvider } from '../../providers/config/config';
 
 @IonicPage()
 @Component({
@@ -14,11 +15,10 @@ export class AddGuardPage {
 
   users:any;
   route:any;
-  ip:any
 
   constructor(public navCtrl: NavController, public navParams: NavParams,public viewController:ViewController,
-    public http:Http,public modalCtrl:ModalController) {
-      this.ip="http://192.168.1.6";
+    public http:Http,public modalCtrl:ModalController,public config:ConfigProvider) {
+     
       this.users=[];
       this.route=this.navParams.get("data");
   }
@@ -44,7 +44,7 @@ export class AddGuardPage {
     headers.append("Content-Type","application/json");
     headers.append("Authorization","Bearer " + window.localStorage.getItem("token"));
 
-    this.http.get(this.ip+"/getUsers",{headers: headers})
+    this.http.get(this.config.SERVER_IP+"/getUsers",{headers: headers})
     .map(res=>res.json())
     .subscribe(
       data=>{

@@ -23,7 +23,7 @@ import {NgxQRCodeModule} from 'ngx-qrcode2';
 import {BarcodeScanner} from '@ionic-native/barcode-scanner'
 import { IonicStorageModule } from '@ionic/storage';
 
-import { GoogleMaps } from '@ionic-native/google-maps';
+import { ConfigProvider } from '../providers/config/config';
 
 @NgModule({
   declarations: [
@@ -69,7 +69,8 @@ import { GoogleMaps } from '@ionic-native/google-maps';
     Geolocation,
     BarcodeScanner,
     NgxQRCodeModule,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
+    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    ConfigProvider
   ]
 })
 export class AppModule {}

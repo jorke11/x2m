@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
+import { ConfigProvider } from '../../providers/config/config';
 
 import {Http,Headers} from '@angular/http';
 import 'rxjs/add/operator/map';
@@ -21,7 +22,7 @@ export class ProfilePage {
 
   public data:any
 
-  constructor(public navCtrl: NavController, public navParams: NavParams,public http:Http) {
+  constructor(public navCtrl: NavController, public navParams: NavParams,public http:Http,public config:ConfigProvider) {
     this.data={};
     this.getProfile();
   }
@@ -36,7 +37,7 @@ export class ProfilePage {
     headers.append("Content-Type","application/json");
     headers.append("Authorization","Bearer " + window.localStorage.getItem("token"));
 
-    this.http.get("http://localhost/getUser",{headers: headers})
+    this.http.get(this.config.SERVER_IP + "/getUser",{headers: headers})
     .map(res=>res.json())
     .subscribe(
       data=>{

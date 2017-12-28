@@ -4,6 +4,8 @@ import { NavController } from 'ionic-angular';
 import {Http,Headers} from '@angular/http';
 import 'rxjs/add/operator/map';
 
+import { ConfigProvider } from '../../providers/config/config';
+
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
@@ -13,10 +15,9 @@ export class HomePage {
   public data:any
   email:string
   password:string
-  ip:any
 
-  constructor(public navCtrl: NavController,public http:Http) {
-    this.ip="http://192.168.1.6";
+  constructor(public navCtrl: NavController,public http:Http,public config:ConfigProvider) {
+
   }
 
   login(){
@@ -25,7 +26,7 @@ export class HomePage {
     headers.append("Content-Type","application/x-www-form-urlencoded");
 
 
-    this.http.post(this.ip+"/user/login",
+    this.http.post(this.config.SERVER_IP+"/user/login",
     {
       email:this.email,
       password:this.password,

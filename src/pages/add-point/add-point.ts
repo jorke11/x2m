@@ -7,6 +7,8 @@ import { Geolocation,Geoposition } from '@ionic-native/geolocation';
 import {Http,Headers} from '@angular/http';
 import 'rxjs/add/operator/map';
 
+import { ConfigProvider } from '../../providers/config/config';
+
 declare var google:any
 
 var address:any
@@ -38,7 +40,6 @@ export class AddPointPage {
   start:any
   end:any
   request:any
-  ip:any
 
   qrData=null
   
@@ -46,8 +47,7 @@ export class AddPointPage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams,public viewController:ViewController,
     public geolocalization:Geolocation,public alertCtrl:AlertController,public http:Http,
-    private barcodeScanner:BarcodeScanner) {
-    this.ip="http://192.168.1.6";
+    private barcodeScanner:BarcodeScanner,public config:ConfigProvider) {
     this.item={};
     this.item = this.navParams.get("data");
     this.latlng={}
@@ -97,7 +97,7 @@ export class AddPointPage {
     headers.append("Content-Type","application/json");
     headers.append("Authorization","Bearer " + window.localStorage.getItem("token"));
 
-    this.http.get(this.ip+"/getPoints/"+this.item.id,{headers: headers})
+    this.http.get(this.config.SERVER_IP+"/getPoints/"+this.item.id,{headers: headers})
     .map(res=>res.json())
     .subscribe(
       data=>{
@@ -123,7 +123,6 @@ export class AddPointPage {
     
     let myLatLng = {lat:latitud,lng:longitude}
 
-    console.log("llego")
     this.map = new google.maps.Map(this.mapRef.nativeElement,{
       center:myLatLng,
       zoom:18
@@ -250,10 +249,13 @@ export class AddPointPage {
     
     this.item.pointers=this.pointers;
 
-    this.http.post(this.ip+"/newPoint",this.item,{headers:headers})
+    this.http.post(this.config.SERVER_IP+"/newPoint",this.item,{headers:headers})
     .map(res=>res.json())
     .subscribe(
       data=>{
+        if(data.status==true){
+          this.viewController.dismiss();
+        }
         console.log(data)
         
         

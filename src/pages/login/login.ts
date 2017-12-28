@@ -4,6 +4,7 @@ import {Http,Headers} from '@angular/http';
 import 'rxjs/add/operator/map';
 import { HomePage } from '../home/home';
 import { Storage } from '@ionic/storage';
+import { ConfigProvider } from '../../providers/config/config';
 
 @IonicPage()
 @Component({
@@ -15,11 +16,9 @@ export class LoginPage {
   public data:any
   public email:string
   public password:string
-  public ip:any
 
   constructor(public navCtrl: NavController, public navParams: NavParams,public http:Http,
-    public storage:Storage) {
-      this.ip="http://192.168.1.6";
+    public storage:Storage,public config:ConfigProvider) {
   }
 
   ionViewDidLoad() {
@@ -35,7 +34,7 @@ export class LoginPage {
     let param={email:this.email,password:this.password};
     console.log(this.email)
     console.log(this.password)
-    this.http.post(this.ip+"/user/login/",param,{headers:headers})
+    this.http.post(this.config.SERVER_IP+"/user/login",param,{headers:headers})
     .map(res=>res.json())
     .subscribe(
       data=>{

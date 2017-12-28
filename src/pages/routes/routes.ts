@@ -6,7 +6,7 @@ import { IonicPage, NavController, NavParams, ModalController, ToastController,
    ActionSheetController,Platform } from 'ionic-angular';
 import {Http,Headers} from '@angular/http';
 import 'rxjs/add/operator/map';
-
+import { ConfigProvider } from '../../providers/config/config';
 
 @IonicPage()
 @Component({
@@ -17,12 +17,12 @@ import 'rxjs/add/operator/map';
 export class RoutesPage {
   
   data:any
-  public ip:any
+
   
   constructor(public navCtrl: NavController, public navParams: NavParams,public modalCtrl:ModalController,
     public toastCtrl:ToastController,public http:Http,public actionSheetCtrl:ActionSheetController,
-    public platform: Platform) {
-      this.ip="http://192.168.1.6";
+    public platform: Platform,public config:ConfigProvider) {
+
       this.data = []
       this.getDataRoutes();
 
@@ -39,7 +39,7 @@ export class RoutesPage {
     headers.append("Content-Type","application/json");
     headers.append("Authorization","Bearer " + window.localStorage.getItem("token"));
 
-    this.http.get(this.ip+"/getRoutes",{headers: headers})
+    this.http.get(this.config.SERVER_IP+"/getRoutes",{headers: headers})
     .map(res=>res.json())
     .subscribe(
       data=>{
